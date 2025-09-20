@@ -1,29 +1,53 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>لوحة تحكم Sh7nly</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <header>
+  <header class="hero">
     <h1>لوحة تحكم Sh7nly</h1>
     <p>نظام إحالات ذكي — أرباحك لحظية</p>
   </header>
 
-  <section class="stats">
-    <p>عدد الإحالات: <span id="referralCount">0</span></p>
-    <p>إجمالي الأرباح: <span id="earnings">0.00</span> جنيه</p>
+  <section class="grid stats">
+    <div class="card">
+      <div class="label">عدد الإحالات</div>
+      <div class="value" id="referralCount">—</div>
+    </div>
+    <div class="card">
+      <div class="label">إجمالي الأرباح</div>
+      <div class="value"><span id="earnings">—</span> جنيه</div>
+    </div>
   </section>
 
-  <button id="paymobBtn">تحويل الأرباح عبر PayMob</button>
-  <p id="status"></p>
+  <section class="card">
+    <h2>العروض المتاحة</h2>
+    <ul id="offers" class="offers"></ul>
+  </section>
 
-  <footer>
-    <p>جميع الحقوق محفوظة – Sh7nly © تنفيذ وتطوير بواسطة Hazem Digital Ventures</p>
+  <section class="card">
+    <h2>تحويل الأرباح</h2>
+    <p class="muted">عند بلوغ الحد الأدنى، يمكنك طلب التحويل.</p>
+    <button id="payoutBtn" class="btn primary">تحويل الأرباح عبر PayMob</button>
+    <div id="payoutStatus" class="status"></div>
+  </section>
+
+  <section class="card share">
+    <h2>مشاركة سريعة</h2>
+    <div class="share-row">
+      <a id="shareWhatsapp" class="btn">واتساب</a>
+      <a id="shareTelegram" class="btn">تيليجرام</a>
+      <a id="shareFacebook" class="btn">فيسبوك</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    جميع الحقوق محفوظة © Sh7nly — تصميم وتطوير بواسطة Hazem Digital Ventures
   </footer>
 
-  <script src="dashboard.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>
