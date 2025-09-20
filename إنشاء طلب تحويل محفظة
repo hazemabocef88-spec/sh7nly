@@ -1,0 +1,12 @@
+POST https://accept.paymob.com/api/disbursements/wallet
+Headers: Authorization: Token {token}
+Body:
+{
+  "recipient": {
+    "wallet_msisdn": "011xxxxxxxx",
+    "wallet_service_provider": "ETISALAT"
+  },
+  "amount": 1000,
+  "currency": "EGP",
+  "description": "Sh7nly payout for Hazem"
+}
