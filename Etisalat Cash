@@ -1,0 +1,103 @@
+export default async function handler(req, res) {
+  if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
+
+  try {
+    const {
+      AIRTABLE_API_KEY, AIRTABLE_BASE_ID,
+      AIRTABLE_REFERRALS_TABLE = "Referrals",
+      AIRTABLE_PAYOUTS_TABLE = "Payouts",
+      PAYOUT_THRESHOLD = "10",
+      PAYMOB_API_BASE = "https://accept.paymob.com/api",
+      PAYMOB_API_KEY,
+      PAYMOB_WALLET_NUMBER
+    } = process.env;
+
+    // 1) احسب إجمالي الأرباح غير المحوّلة
+    const referralsUrl = `${PAYMOB_API_BASE}/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_REFERRALS_TABLE)}?filterByFormula=${encodeURIComponent(`{Status}!="Transferred"`)}`;
+    const referralsRes = await fetch(referralsUrl, { headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` } });
+    const referralsJson = await referralsRes.json();
+    const records = referralsJson.records || [];
+    const total = records.reduce((sum, rec) => sum + Number(rec.fields.Earnings || 0), 0);
+
+    if (total < Number(PAYOUT_THRESHOLD)) {
+      return res.status(400).json({ success: false, message: "الرصيد أقل من الحد الأدنى للتحويل." });
+    }
+
+    // 2) احصل على توكن من PayMob
+    const tokenRes = await fetch(`${PAYMOB_API_BASE}/auth/tokens`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ api_key: PAYMOB_API_KEY })
+    });
+    const tokenJson = await tokenRes.json();
+    const token = tokenJson.token;
+    if (!token) throw new Error("فشل الحصول على توكن من PayMob");
+
+    // 3) نفّذ طلب التحويل إلى Etisalat Cash
+    const disburseRes = await fetch(`${PAYMOB_API_BASE}/disbursements/wallet`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
+      },
+      body: JSON.stringify({
+        recipient: {
+          wallet_msisdn: PAYMOB_WALLET_NUMBER,
+          wallet_service_provider: "ETISALAT"
+        },
+        amount: Math.round(total * 100), // القيمة بالمليم
+        currency: "EGP",
+        description: "تحويل أرباح Sh7nly إلى محفظة Hazem"
+      })
+    });
+    const disburseJson = await disburseRes.json();
+    const success = disburseRes.ok && disburseJson.id;
+
+    // 4) أنشئ سجل تحويل في Airtable
+    const payoutUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_PAYOUTS_TABLE)}`;
+    const payoutRes = await fetch(payoutUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        records: [{
+          fields: {
+            Amount: total,
+            Status: success ? "Success" : "Failed",
+            Destination: PAYMOB_WALLET_NUMBER,
+            Timestamp: new Date().toISOString()
+          }
+        }]
+      })
+    });
+
+    // 5) حدّث حالة الإحالات إلى "Transferred"
+    if (success) {
+      const updateUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_REFERRALS_TABLE)}`;
+      const updateBody = {
+        records: records.map(rec => ({
+          id: rec.id,
+          fields: { Status: "Transferred" }
+        }))
+      };
+      await fetch(updateUrl, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updateBody)
+      });
+    }
+
+    return res.status(success ? 200 : 500).json({
+      success,
+      message: success ? "تم تحويل الأرباح بنجاح إلى Etisalat Cash ✅" : "فشل التحويل عبر PayMob ❌"
+    });
+
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "خطأ أثناء تنفيذ التحويل." });
+  }
+}
