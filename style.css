@@ -37,3 +37,31 @@ header {
   text-decoration: none;
   border-radius: 5px;
 }
+
+.dashboard {
+  background-color: #eef;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+#log {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
