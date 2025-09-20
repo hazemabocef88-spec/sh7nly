@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة شحنلي - Sh7nly</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>منصة شحنلي الرقمية</h1>
+    <p>اشترك في خدمات رقمية واحصل على خصومات حصرية</p>
+  </header>
+
+  <main class="container">
+    <section class="offers">
+      <div class="offer">
+        <h2>اشتراك Canva Pro</h2>
+        <p>احصل على أدوات التصميم الاحترافية بسعر خاص</p>
+        <a href="https://affiliate-link-canva.com" target="_blank" rel="noopener">اشترك الآن</a>
+      </div>
+      <div class="offer">
+        <h2>اشتراك ChatGPT Plus</h2>
+        <p>استمتع بالذكاء الاصطناعي المتقدم في أعمالك</p>
+        <a href="https://affiliate-link-chatgpt.com" target="_blank" rel="noopener">اشترك الآن</a>
+      </div>
+    </section>
+
+    <section class="builder">
+      <h2>بناء الكنغارو - Kangaroo Builder</h2>
+
+      <div class="builder-panel">
+        <form id="kangarooForm">
+          <label>
+            اسم الكنغارو:
+            <input type="text" id="name" placeholder="اسم الكنغارو" value="كنغاري">
+          </label>
+
+          <label>
+            اللون الرئيسي:
+            <input type="color" id="bodyColor" value="#c68642">
+          </label>
+
+          <label>
+            لون البطن:
+            <input type="color" id="bellyColor" value="#f1d7b0">
+          </label>
+
+          <label>
+            حجم الكنغارو:
+            <select id="scale">
+              <option value="0.8">صغير</option>
+              <option value="1" selected>متوسط</option>
+              <option value="1.4">كبير</option>
+            </select>
+          </label>
+
+          <label>
+            سعة الجيب (وحدات رقمية):
+            <input type="number" id="pocket" min="0" max="100" value="10">
+          </label>
+
+          <label>
+            السعر المقترح (USD):
+            <input type="number" id="price" min="0" step="0.01" value="5.00">
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" id="createBtn">انشاء كنغارو</button>
+            <button type="button" id="listBtn" disabled>ادراج للبيع</button>
+          </div>
+        </form>
+
+        <div class="preview">
+          <h3>المعاينة</h3>
+          <div id="kangarooPreview" class="kangaroo-preview" aria-live="polite"></div>
+          <div id="previewInfo" class="preview-info"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="marketplace">
+      <h2>السوق - Marketplace</h2>
+
+      <div class="balance">
+        <div>
+          <strong>الرصيد:</strong> <span id="balance">0.00</span> USD
+        </div>
+        <div class="balance-actions">
+          <button id="withdrawBtn">سحب (محاكاة)</button>
+        </div>
+      </div>
+
+      <div class="affiliate" aria-live="polite">
+        <div class="affiliate-stats">
+          <strong>الإحالات:</strong> <span id="referrals">0</span>
+          <strong style="margin-inline-start:8px">أرباح الإحالات:</strong> <span id="earnings">0.00</span> جنيه
+        </div>
+        <div class="affiliate-actions">
+          <button id="payoutBtn">سحب أرباح الإحالات</button>
+          <button id="simulateReferralBtn">محاكاة إحالة (+10 جنيه)</button>
+        </div>
+      </div>
+
+      <div id="listings" class="listings">
+        <!-- مربعات الكنغاروات المعروضة للبيع -->
+      </div>
+
+      <div class="stats">
+        <p>إجمالي الكنغاروات المنشأة: <span id="totalCreated">0</span></p>
+        <p>إجمالي المبيعات: <span id="totalSales">0</span></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© Sh7nly - جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
