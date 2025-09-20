@@ -1,0 +1,2 @@
+POST https://accept.paymob.com/api/auth/tokens
+Body: { "api_key": PAYMOB_API_KEY }
