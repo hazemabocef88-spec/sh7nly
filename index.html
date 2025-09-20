@@ -1,41 +1,27 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة شحنلي - Sh7nly</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة تحكم Sh7nly</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>منصة شحنلي الرقمية</h1>
-    <p>اشترك في خدمات رقمية واحصل على خصومات حصرية</p>
+    <h1>لوحة تحكم Sh7nly</h1>
+    <p>نظام إحالات ذكي — أرباحك لحظية</p>
   </header>
 
-  <section class="offers">
-    <div class="offer">
-      <h2>اشتراك Canva Pro</h2>
-      <p>أدوات تصميم احترافية بسعر خاص</p>
-      <a href="https://affiliate-link-canva.com" target="_blank">اشترك الآن</a>
-    </div>
-    <div class="offer">
-      <h2>اشتراك ChatGPT Plus</h2>
-      <p>ذكاء اصطناعي متقدم لأعمالك</p>
-      <a href="https://affiliate-link-chatgpt.com" target="_blank">اشترك الآن</a>
-    </div>
+  <section class="stats">
+    <p>عدد الإحالات: <span id="referralCount">0</span></p>
+    <p>إجمالي الأرباح: <span id="earnings">0.00</span> جنيه</p>
   </section>
 
-  <section class="dashboard">
-    <h2>لوحة التحكم</h2>
-    <p>عدد الإحالات: <span id="referrals">0</span></p>
-    <p>إجمالي الأرباح: <span id="earnings">0.00</span> جنيه</p>
-    <button onclick="triggerTransfer()">تحويل الأرباح إلى InstaPay</button>
-    <div id="log"></div>
-  </section>
+  <button id="paymobBtn">تحويل الأرباح عبر PayMob</button>
+  <p id="status"></p>
 
   <footer>
-    <p>© Sh7nly - جميع الحقوق محفوظة</p>
-    <p style="font-size: 12px; color: #777;">تم التنفيذ بواسطة Hazem Digital Ventures</p>
+    <p>جميع الحقوق محفوظة – Sh7nly © تنفيذ وتطوير بواسطة Hazem Digital Ventures</p>
   </footer>
 
   <script src="dashboard.js"></script>
